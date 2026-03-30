@@ -66,6 +66,10 @@ init_db()
 
 # Initialize Anthropic client
 claude_client = anthropic.Anthropic(api_key=os.getenv('CLAUDE_API_KEY', 'placeholder')) if os.getenv('CLAUDE_API_KEY') else None
+
+@app.route('/', methods=['GET'])
+def health():
+          return jsonify({'status': 'healthy', 'claude_available': claude_client is not None}), 200
 @app.route('/webhook/conversation-ended', methods=['POST'])
 def webhook_conversation_ended():
       """Receive webhook from ElevenLabs when conversation ends."""
